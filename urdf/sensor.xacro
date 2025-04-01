@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Macro for Sensor Link and Joint -->
+    <xacro:macro name="sensor"
+        params="name prefix x y z roll pitch yaw mass origin_x origin_y origin_z ixx ixy ixz iyy iyz izz color_r color_g color_b color_a">
+        <!-- Sensor Link -->
+        <link name="${prefix}_${name}">
+            <inertial>
+                <origin xyz="${origin_x} ${origin_y} ${origin_z}" rpy="0 0 0" />
+                <mass value="${mass}" />
+                <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}"
+                    izz="${izz}" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://car_4wd/meshes/${name}_Link.STL" />
+                </geometry>
+                <material name="">
+                    <color rgba="${color_r} ${color_g} ${color_b} ${color_a}" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://car_4wd/meshes/${name}_Link.STL" />
+                </geometry>
+            </collision>
+        </link>
+
+        <!-- Sensor Joint -->
+        <joint name="${prefix}_${name}_joint" type="fixed">
+            <origin xyz="${x} ${y} ${z}" rpy="${roll} ${pitch} ${yaw}" />
+            <parent link="base_link" />
+            <child link="${prefix}_${name}" />
+            <axis xyz="0 0 0" />
+            <dynamics damping="0.01" friction="0.01" />
+        </joint>
+    </xacro:macro>
+
+</robot>

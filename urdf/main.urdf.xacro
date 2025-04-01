@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<robot name="omni_car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Include Macros -->
+    <xacro:include filename="rim.xacro" />
+    <xacro:include filename="sensor.xacro" />
+    <xacro:include filename="sung.xacro" />
+    <xacro:include filename="plugin.xacro" />
+    <xacro:include filename="transmission.xacro" />
+
+    <!-- Base Link -->
+    <link name="base_link">
+        <inertial>
+            <origin xyz="0.00026343168716178 -1.5535406294731E-11 0.00563113326253423" rpy="0 0 0" />
+            <mass value="0.4" />
+            <inertia ixx="0.00008" ixy="0.0" ixz="0.0" iyy="0.00008" iyz="0.0" izz="0.00015" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://car_4wd/meshes/base_link.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://car_4wd/meshes/base_link.STL" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Gazebo properties for base_link -->
+    <gazebo reference="base_link">
+        <material>Gazebo/CloudySky</material>
+    </gazebo>
+
+    <!-- Define All Wheels -->
+    <xacro:rim prefix="front_left" x="0.11977" y="0.12038" z="-0.0255" roll="1.5708" pitch="0"
+        yaw="-0.7854" />
+    <xacro:rim prefix="front_right" x="0.11977" y="-0.12038" z="-0.0255" roll="1.5708" pitch="0"
+        yaw="-2.3562" />
+    <xacro:rim prefix="rear_left" x="-0.11977" y="0.12038" z="-0.0255" roll="1.5708" pitch="0"
+        yaw="0.7854" />
+    <xacro:rim prefix="rear_right" x="-0.11977" y="-0.12038" z="-0.0255" roll="1.5708" pitch="0"
+        yaw="2.3562" />
+
+    <!-- Gazebo properties for rims -->
+    <gazebo reference="front_left_rim">
+        <material>Gazebo/Yellow</material>
+    </gazebo>
+    <gazebo reference="front_right_rim">
+        <material>Gazebo/Red</material>
+    </gazebo>
+    <gazebo reference="rear_left_rim">
+        <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="rear_right_rim">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <!-- Define Sensors -->
+    <xacro:sensor name="lidar" prefix="sensor"
+        x="-0.0071105" y="0" z="0.04625" roll="0" pitch="0" yaw="0"
+        mass="0.1467"
+        origin_x="0.0082941" origin_y="0" origin_z="-0.0085489"
+        ixx="6.2272E-05" ixy="-1.6091E-20" ixz="1.8866E-05"
+        iyy="0.00010967" iyz="9.8493E-21" izz="0.00012568"
+        color_r="1.0" color_g="0.5" color_b="0.0" color_a="1" />
+    <gazebo reference="sensor_lidar">
+        <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <xacro:sensor name="cam" prefix="sensor"
+        x="0.11939" y="0.0017162" z="0.089" roll="0" pitch="0" yaw="0"
+        mass="0.10791"
+        origin_x="-0.011444" origin_y="-0.001705" origin_z="-0.0001361"
+        ixx="7.1255E-05" ixy="-1.7837E-08" ixz="4.9293E-08"
+        iyy="7.71E-06" iyz="2.2103E-10" izz="7.0257E-05"
+        color_r="0.5" color_g="0.0" color_b="0.5" color_a="1" />
+    <gazebo reference="sensor_cam">
+        <material>Gazebo/Purple</material>
+    </gazebo>
+
+    <xacro:sensor name="gps" prefix="sensor"
+        x="-0.10189" y="0.00012301" z="0.028139" roll="0" pitch="0" yaw="0"
+        mass="0.0273352261247105"
+        origin_x="-0.000234344503684682" origin_y="-0.000480179325965335"
+        origin_z="-0.0080940119068153"
+        ixx="3.55571582981261E-06" ixy="-1.49360731623014E-08" ixz="1.01926750378263E-08"
+        iyy="3.68244652590976E-06" iyz="-5.55452543457984E-10" izz="7.06140819525252E-06"
+        color_r="1.0" color_g="1.0" color_b="1.0" color_a="1" />
+    <gazebo reference="sensor_gps">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <!-- Define Sung Components -->
+    <xacro:sung_base x="-0.00061051" y="0" z="0.104" roll="0" pitch="0" yaw="0" />
+    <gazebo reference="de_link">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <xacro:sung_link name="1_link" parent="de_link"
+        x="-0.001338" y="-0.0057253" z="0.025" roll="0" pitch="0" yaw="0"
+        mass="0.09842"
+        origin_x="0.002182" origin_y="0.0093368" origin_z="0.020798"
+        ixx="6.5924E-05" ixy="-1.4202E-06" ixz="6.6287E-08"
+        iyy="6.0179E-05" iyz="2.8365E-07" izz="5.423E-05"
+        color_r="0.5" color_g="0.5" color_b="0.5" color_a="1"
+        limit_lower="-3.14" limit_upper="3.14" limit_effort="10" limit_velocity="1" />
+    <gazebo reference="1_link">
+        <material>Gazebo/Gray</material>
+    </gazebo>
+
+    <xacro:sung_link name="2_link" parent="1_link"
+        x="0.0064582" y="0.027635" z="0.02" roll="1.5708" pitch="0" yaw="-0.22958"
+        mass="0.53988"
+        origin_x="-0.024115" origin_y="0.076424" origin_z="0.0225"
+        ixx="0.0048113" ixy="-0.0024174" ixz="2.1684E-19"
+        iyy="0.0017825" iyz="1.8449E-19" izz="0.0062046"
+        color_r="0.8" color_g="0.8" color_b="0.0" color_a="1"
+        limit_lower="-.57" limit_upper="0" limit_effort="10" limit_velocity="1" />
+    <gazebo reference="2_link">
+        <material>Gazebo/DarkYellow</material>
+    </gazebo>
+
+    <!-- Define Plugins -->
+    <xacro:gazebo_ros_control_plugin namespace="omni_car" />
+
+    <xacro:lidar_plugin link_name="sensor_lidar" namespace="omni_car" topic_name="laser/scan"
+        update_rate="40" samples="1440" min_angle="-1.57" max_angle="1.57" max_range="25.0" />
+
+    <xacro:camera_plugin link_name="sensor_cam" namespace="omni_car" camera_name="camera1"
+        image_topic="image_raw" update_rate="30.0" fov="2.0944" width="640" height="480"
+        near_clip="0.1" far_clip="50.0" />
+
+    <xacro:gps_plugin namespace="omni_car" link_name="sensor_gps" topic_name="senor_gps/fix"
+        update_rate="20.0" ref_lat="0.0" ref_lon="0.0" ref_alt="0" />
+
+    <!-- Define Transmissions -->
+    <!-- For Sung Joints -->
+    <xacro:sung_transmission joint_name="joint_1_link" />
+    <xacro:sung_transmission joint_name="joint_2_link" />
+
+    <!-- For Wheel Joints -->
+    <xacro:wheel_transmission name="front_left" />
+    <xacro:wheel_transmission name="front_right" />
+    <xacro:wheel_transmission name="rear_left" />
+    <xacro:wheel_transmission name="rear_right" />
+</robot>

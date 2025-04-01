@@ -1,0 +1,68 @@
+omni_car:
+
+    joint_state_controller:
+        type: joint_state_controller/JointStateController
+        publish_rate: 100
+
+    front_right_joint_velocity_controller:
+        type: velocity_controllers/JointVelocityController
+        joint: front_right_rim_joint
+        pid: {p: 0.1, i: 0.01, d: 0.001}
+        publish_rate: 50
+        velocity_ff: 0.1
+        antiwindup: true
+
+    rear_left_joint_velocity_controller:
+        type: velocity_controllers/JointVelocityController
+        joint: rear_left_rim_joint
+        pid: {p: 0.1, i: 0.01, d: 0.001}
+        publish_rate: 50
+        velocity_ff: 0.1
+        antiwindup: true
+
+    rear_right_joint_velocity_controller:
+        type: velocity_controllers/JointVelocityController
+        joint: rear_right_rim_joint
+        pid: {p: 0.1, i: 0.01, d: 0.001}
+        publish_rate: 50
+        velocity_ff: 0.1
+        antiwindup: true
+
+    front_left_joint_velocity_controller:
+        type: velocity_controllers/JointVelocityController
+        joint: front_left_rim_joint
+        pid: {p: 0.1, i: 0.01, d: 0.001}
+        publish_rate: 50
+        velocity_ff: 0.1
+        antiwindup: true
+        
+    # Position controllers for the joints
+    joint_1_position_controller:
+        type: position_controllers/JointPositionController
+        joint: joint_1_link
+        pid: {p: 1.0, i: 0.1, d: 0.01}
+        publish_rate: 50
+        antiwindup: true
+        
+    joint_2_position_controller:
+        type: position_controllers/JointPositionController
+        joint: joint_2_link
+        pid: {p: 1.0, i: 0.1, d: 0.01}
+        publish_rate: 50
+        antiwindup: true
+        
+    # Joint trajectory controller for arm
+    arm_controller:
+        type: position_controllers/JointTrajectoryController
+        joints:
+            - joint_1_link
+            - joint_2_link
+        constraints:
+            goal_time: 0.5
+            stopped_velocity_tolerance: 0.05
+        stop_trajectory_duration: 0.2
+        state_publish_rate: 25
+        action_monitor_rate: 10
+        gains:
+            joint_1: {p: 100.0, i: 0.5, d: 10.0}
+            joint_2: {p: 100.0, i: 0.5, d: 10.0}

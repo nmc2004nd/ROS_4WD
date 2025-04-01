@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <!-- Include display.launch which now also includes gazebo.launch -->
+    <include file="$(find car_4wd)/launch/display.launch" />
+    <include file="$(find car_4wd)/launch/gazebo.launch" />
+
+    <!-- Load controllers -->
+    <rosparam file="$(find car_4wd)/config/joint_control.yaml" command="load" />
+
+    <!-- Controllers-->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/omni_car"
+        args="--namespace=/omni_car
+	joint_state_controller
+    front_left_joint_velocity_controller
+    front_right_joint_velocity_controller
+    rear_left_joint_velocity_controller
+    rear_right_joint_velocity_controller
+    arm_controller
+	" />
+</launch>
+
+    <!-- joint_1_position_controller
+    joint_2_position_controller
+    arm_controller -->

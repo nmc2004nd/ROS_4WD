@@ -1,0 +1,1 @@
+controller_joint_names: ['', 'rim_front_left_joint', 'roller_e_rim_front_left_joint', 'roller_ne_rim_front_left_joint', 'roller_n_rim_front_left_joint', 'roller_nw_rim_front_left_joint', 'roller_w_rim_front_left_joint', 'roller_sw_rim_front_left_joint', 'roller_s_rim_front_left_joint', 'roller_se_rim_front_left_joint', '1_joint', '2_joint', ]

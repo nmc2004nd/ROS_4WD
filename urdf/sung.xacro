@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Macro for Base Sung Link (de_Link) -->
+    <xacro:macro name="sung_base" params="x y z roll pitch yaw">
+        <link name="de_link">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="0" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://car_4wd/meshes/de_link.STL" />
+                </geometry>
+                <material name="">
+                    <color rgba="1 1 1 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://car_4wd/meshes/de_link.STL" />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="de_joint" type="fixed">
+            <origin xyz="${x} ${y} ${z}" rpy="${roll} ${pitch} ${yaw}" />
+            <parent link="base_link" />
+            <child link="de_link" />
+            <axis xyz="0 0 0" />
+            <dynamics damping="0.01" friction="0.01" />
+        </joint>
+    </xacro:macro>
+
+    <!-- Macro for Other Sung Links (1_link, 2_link) - Always Revolute -->
+    <xacro:macro name="sung_link"
+        params="name parent x y z roll pitch yaw mass origin_x origin_y origin_z ixx ixy ixz iyy iyz izz color_r color_g color_b color_a limit_lower limit_upper limit_effort limit_velocity">
+        <link name="${name}">
+            <inertial>
+                <origin xyz="${origin_x} ${origin_y} ${origin_z}" rpy="0 0 0" />
+                <mass value="${mass}" />
+                <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}"
+                    izz="${izz}" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://car_4wd/meshes/${name}.STL" />
+                </geometry>
+                <material name="">
+                    <color rgba="${color_r} ${color_g} ${color_b} ${color_a}" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://car_4wd/meshes/${name}.STL" />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="joint_${name}" type="revolute">
+            <origin xyz="${x} ${y} ${z}" rpy="${roll} ${pitch} ${yaw}" />
+            <parent link="${parent}" />
+            <child link="${name}" />
+            <axis xyz="0 0 1" />
+            <limit lower="${limit_lower}" upper="${limit_upper}" effort="${limit_effort}"
+                velocity="${limit_velocity}" />
+            <dynamics damping="0.01" friction="0.01" />
+        </joint>
+    </xacro:macro>
+</robot>
